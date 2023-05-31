@@ -24,7 +24,7 @@ fun AddCardEquipment(name: String) {
     Card(
         modifier = Modifier
             .height(120.dp)
-            .padding(4.dp)
+            .padding(8.dp)
             .clickable { },
     ) {
         Column(

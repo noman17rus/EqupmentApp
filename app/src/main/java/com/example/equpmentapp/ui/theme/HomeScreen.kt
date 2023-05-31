@@ -41,6 +41,6 @@ fun HomeScreen(navigator: NavHostController) {
 @Composable
 fun Preview() {
     EqupmentAppTheme {
-        
+
     }
 }
