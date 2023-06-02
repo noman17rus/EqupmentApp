@@ -1,11 +1,11 @@
 package com.example.equpmentapp
 
-import java.util.Date
+import java.time.LocalDate
 
 data class Equipment(
     val name: String,
     var period: Int,
-    var startDate: String,
-    var endDate: String
+    var startDate: LocalDate?,
+    var endDate: LocalDate?
 ) {
 }

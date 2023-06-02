@@ -17,10 +17,12 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.equpmentapp.EViewModel
+import java.time.LocalDate
 
 
 @Composable
-fun AddCardEquipment(name: String) {
+fun AddCardEquipment(viewModel: EViewModel, name: String, date: LocalDate?, endDate: LocalDate?) {
     Card(
         modifier = Modifier
             .height(120.dp)
@@ -52,7 +54,7 @@ fun AddCardEquipment(name: String) {
                     Row() {
                         Column() {
                             Text(text = "Дата поверки прибора:")
-                            Text(text = "18.02.2022")
+                            Text(text = date.toString())
                         }
                     }
                 }
@@ -60,7 +62,7 @@ fun AddCardEquipment(name: String) {
                     Row() {
                         Column() {
                             Text(text = "Следующая поверка:")
-                            Text(text = "18.02.2022")
+                            Text(text = endDate.toString())
                         }
                     }
                 }
@@ -72,5 +74,4 @@ fun AddCardEquipment(name: String) {
 @Preview
 @Composable
 fun PreviewCard() {
-    AddCardEquipment("dag")
 }

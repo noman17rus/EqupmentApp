@@ -60,11 +60,12 @@ fun DetailInfoScreen(navigator: NavHostController, viewModel: EViewModel) {
             )
         )
         Text(text = "Выберите дату последней поверки:", Modifier.padding(8.dp), fontSize = 24.sp)
-        DatePicker()
+        DatePicker(viewModel)
         ButtonAddCard(nameState, navigator, viewModel)
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ButtonAddCard(
     state: MutableState<String>,
@@ -76,7 +77,14 @@ fun ButtonAddCard(
         if (state.value == "") {
             Toast.makeText(context, "Введите название оборудования", Toast.LENGTH_SHORT).show()
         } else {
-            DataBase.dataBase.add(Equipment(state.value, 12, "hello", "Android"))
+            DataBase.dataBase.add(
+                Equipment(
+                    state.value,
+                    1,
+                    viewModel.parseDate(viewModel.dateOfStart.value.toString()),
+                    viewModel.getEndOfDate(viewModel.dateOfStart.value.toString())
+                )
+            )
             navigator.navigate(route = AllScreens.HomeScreen.route)
             viewModel.name.value = ""
         }
@@ -87,7 +95,7 @@ fun ButtonAddCard(
 }
 
 @Composable
-fun DatePicker() {
+fun DatePicker(viewModel: EViewModel) {
     val context = LocalContext.current
     val mYear: Int
     val mMonth: Int
@@ -104,14 +112,12 @@ fun DatePicker() {
     // store date in string format
     //state = (viewModel.bd.observeAsState("").value as MutableList<Equipment>)
 
-    val mDate = remember {
-        mutableStateOf("")
-    }
 
     val mDatePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-            mDate.value = "$mDayOfMonth.${mMonth}.$mYear"
+            viewModel.dateOfStart.value =
+                "$mYear-${monthFormat(mMonth + 1)}-${monthFormat(mDayOfMonth)}"
         }, mYear, mMonth, mDay
     )
 
@@ -122,5 +128,11 @@ fun DatePicker() {
     ) {
         Text(text = "Open Date Picker")
     }
+}
+
+fun monthFormat(x: Int): String {
+    return if (x < 10) {
+        "0${x}"
+    } else x.toString()
 }
 
